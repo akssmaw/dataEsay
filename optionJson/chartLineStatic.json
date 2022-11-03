@@ -1,0 +1,23 @@
+[{
+	"chartName": "Basic_Line_Chart",
+	"chartNick":"基础折线图",
+	"chartUrl": "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/line-simple.png?_v_=1655181358610"
+}, {
+	"chartName": "Smoothed_Line_Chart",
+	"chartNick":"基础平滑折线图",
+	"chartUrl": "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/line-smooth.webp?_v_=1655181358610"
+}, {
+	"chartName": "Basic_area_chart",
+	"chartNick":"基础面积图",
+	"chartUrl": "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/area-basic.webp?_v_=1655181358610"
+},{
+	"chartName": "Stacke_Line_Chart",
+	"chartNick":"折线图堆叠",
+	"chartUrl": "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/line-stack.webp?_v_=1655181358610"
+},
+{
+	"chartName": "Stacked_Area_Chart",
+	"chartNick":"堆叠面积图",
+	"chartUrl": "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/area-stack.webp?_v_=1655181358610"
+} 
+]

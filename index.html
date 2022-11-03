@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DataV</title>
+		<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.7.0-beta.2/vue.js"></script>
+
+		<!--Debug version-->
+		<!--调试版-->
+
+		<!--Compression version-->
+		<!--压缩版-->
+		<!-- <script src="https://unpkg.com/@jiaminghi/data-view/dist/datav.min.vue.js"></script> -->
+		<style>
+			html,
+			body,
+			#app {
+				width: 100%;
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+			}
+
+			.border-box-content {
+				color: rgb(66, 185, 131);
+				font-size: 40px;
+				font-weight: bold;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		</style>
+		<style>
+			.el-header,
+			.el-footer {
+				background-color: #B3C0D1;
+				color: #333;
+				text-align: center;
+				line-height: 60px;
+			}
+
+			.el-aside {
+				color: #333;
+				text-align: center;
+			}
+
+			.el-main {
+				color: #333;
+				text-align: center;
+
+			}
+
+			.jsoneditor-menu {
+				background-color: #B3C0D1;
+			}
+
+			.ace_scrollbar-v {
+				width: 15px !important;
+				text-align: center;
+			}
+
+			::-webkit-scrollbar {
+				/*滚动条整体样式*/
+				width: 5px;
+				/*高宽分别对应横竖滚动条的尺寸*/
+				height: 6px;
+			}
+0.
+			::-webkit-scrollbar-thumb {
+				/*滚动条里面小方块*/
+				border-radius: 5px;
+				// box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+				background: #bac0ce;
+			}
+
+			::-webkit-scrollbar-track {
+				/*滚动条里面轨道*/
+				// box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+				/*border-radius: 5px;*/
+				/*background: #d8d8d8;*/
+			}
+		</style>
+		<style>
+			.toggle-bar {
+				position: absolute;
+				top: 50%;
+				right: 310px;
+				border-radius: 80px;
+				display: inline-block;
+				cursor: pointer;
+			}
+
+			.bar-1-right {
+				width: 5px;
+				height: 40px;
+				background-color: #B3C0D1;
+				border-radius: 10px 10px 0px 0px;
+				transition: all 0.5s;
+			}
+
+			.bar-2-right {
+				width: 5px;
+				height: 40px;
+				background-color: #B3C0D1;
+				border-radius: 0px 0px 10px 10px;
+				transition: all 0.5s;
+			}
+
+			.toggle-bar:hover .bar-1-right {
+
+				border-radius: 10px 10px 20px 20px;
+				transform: rotate(-20deg) scale(1.15) translateY(0.7px);
+			}
+
+			.toggle-bar:hover .bar-2-right {
+				border-radius: 20px 20px 10px 10px;
+				transform: rotate(20deg) scale(1.15) translateY(-0.7px);
+			}
+
+			.transition-box {}
+
+			.div_echarts:hover {
+				border: #598fb8 1.5px dashed;
+				border-radius: 10px;
+				transform: scale(1.01);
+			}
+
+			.div_echarts {
+				transition: transform 0.3s;
+
+			}
+		</style>
+		<!-- json美化 -->
+		<style>
+			.jsoneditor-poweredBy {
+				display: none;
+			}
+
+			.jsoneditor-transform {
+				display: none;
+			}
+
+			.jsoneditor-sort {
+				display: none;
+			}
+
+			.jsoneditor-menu {
+				display: none;
+			}
+
+			.jsoneditor {
+				border: none !important;
+			}
+
+			.deleteDiv {
+				background-color: #333;
+				width: 50px;
+				height: 50px;
+				border: #333 20px solid;
+			}
+		</style>
+		<style>
+			.span_style_house {
+				width: 10px;
+				height: 10px;
+				border-right: 1.5px solid #7a7a7a;
+				border-bottom: 1.5px solid #7a7a7a;
+				z-index: 99999999;
+				position: absolute;
+				left: 100%;
+				overflow: hidden;
+				top: 100%;
+			}
+
+			.span_style_house:hover {
+
+				cursor: se-resize;
+			}
+		</style>
+		<style>
+			.el-image__inner {
+				border-radius: 10px;
+			}
+
+			.image_block {
+				padding: 10px;
+				margin: 10px;
+
+
+			}
+
+			.iocn {
+				margin: 10px;
+			}
+		</style>
+		<style>
+			.div_houser_vivify {
+				height: 40px;
+				padding: 5px;
+				margin: 15px;
+				border: 1px solid #d3d9d7;
+				width: 50px;
+				display: inline-block;
+				text-align: center;
+				border-radius: 10px;
+				line-height: 40px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<link href="css/vivify.min.css" rel="stylesheet" type="text/css" />
+
+		<div id="app">
+
+			<div>
+				<el-container style="height:calc(100vh)">
+
+					<el-container id="container">
+						<el-header style="z-index: 999;">
+
+							<div style="text-align: right;">
+								<!-- <el-tag>标签一</el-tag>
+								<el-tag type="success" @click="demoOne('Basic_Line_Chart')">标签二</el-tag>
+								<el-tag type="info" @click="demoOne('Smoothed_Line_Chart')">标签三</el-tag>
+								<el-tag type="warning">标签四</el-tag>
+								<el-tag type="danger">标签五</el-tag> -->
+
+								demos
+								<i class="el-icon-lock iocn" @click="testDemo()"></i>
+								<i class="el-icon-full-screen iocn" @click="iconFullScreenClick()"></i>
+								<i class="el-icon-setting iocn"></i>
+								<i class="el-icon-setting iocn" @click="zhuti()">00</i>
+							</div>
+						</el-header>
+
+						<el-main id="main">
+
+
+
+						</el-main>
+
+
+
+					</el-container>
+					<div class="toggle-bar" @click="toggleBarClick" @mouseenter="toggleBarMouseenter">
+						<div class="bar-1-right"></div>
+						<div class="bar-2-right"></div>
+					</div>
+
+					<transition name="el-fade-in">
+						<el-aside v-show="show3" class="transition-box" id="el-aside">
+
+							<div>
+
+
+								<el-tabs class="p_houser_echartsName">
+									<el-tab-pane>
+										<span slot="label"><i class="el-icon-film"></i> 组件</span>
+										<el-collapse>
+											<el-collapse-item title="折线图" name="1">
+												<div class="demo-image">
+													<div class="image_block" v-for="item in chartLineStatic_Json"
+														:key="item.chartName" @click="create_line(item.chartName)">
+														{{item.chartNick}}
+														<el-image style="width: 250px; " :src="item.chartUrl">
+														</el-image>
+													</div>
+
+												</div>
+											</el-collapse-item>
+											<el-collapse-item title="柱状图" name="2">
+												<div class="demo-image">
+													<div class="image_block" v-for="item in chartBarStatic_Json"
+														:key="item.chartName" @click="create_Bar(item.chartName)">
+														{{item.chartNick}}
+														<el-image style="width: 250px; " :src="item.chartUrl">
+														</el-image>
+													</div>
+
+												</div>
+
+											</el-collapse-item>
+											<el-collapse-item title="效率 Efficiency" name="3">
+												<div>简化流程：设计简洁直观的操作流程；</div>
+												<div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
+												<div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+											</el-collapse-item>
+											<el-collapse-item title="可控 Controllability" name="4">
+												<div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
+												<div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+											</el-collapse-item>
+										</el-collapse>
+
+
+
+									</el-tab-pane>
+									<el-tab-pane>
+										<span slot="label"><i class="el-icon-s-tools"></i> 定制</span>
+										<p>{{selectedMyChart.echartsName}}</p>
+										<div v-if="selectedMyChart.style">
+											<el-form>
+												<el-form-item label="宽度">
+													<el-input v-model="selectedMyChart.style.width"
+														@input="widthChange"></el-input>
+												</el-form-item>
+												<el-form-item label="高度">
+													<el-input v-model="selectedMyChart.style.height"
+														@input="heightChange"></el-input>
+												</el-form-item>
+												<el-form-item label="背景色">
+													<div class="block">
+														<el-color-picker v-model="selectedMyChart.style.background"
+															@input="backgroundColorChange"></el-color-picker>
+													</div>
+												</el-form-item>
+												<el-form-item label="暂无" style="text-align: initial;">
+
+
+
+												</el-form-item>
+											</el-form>
+										</div>
+
+
+
+									</el-tab-pane>
+									<el-tab-pane>
+										<span slot="label"><i class="el-icon-s-data"></i> 数据</span>
+										<p>{{selectedMyChart.echartsName}}</p>
+
+										<div id="jsoneditor" @input="optionChange" style="width: 300px; height: 800px;">
+										</div>
+									</el-tab-pane>
+
+									<el-tab-pane label="特效">
+										<el-collapse style="text-align: initial;">
+											<el-collapse-item title="特效1" name="1">
+												<div class="div_houser_vivify"
+													@mouseenter="vivifyMouseenter('ball',$event)">00
+												</div>
+												<div class="div_houser_vivify"
+													@mouseenter="vivifyMouseenter('blink',$event)">00
+												</div>
+												<div class="div_houser_vivify"
+													@mouseenter="vivifyMouseenter('driveInBottom',$event)">00
+												</div>
+												<div class="div_houser_vivify"
+													@mouseenter="vivifyMouseenter('driveInLeft',$event)">00
+												</div>
+												<div class="div_houser_vivify"
+													@mouseenter="vivifyMouseenter('driveInRight',$event)">00
+												</div>
+											</el-collapse-item>
+											<el-collapse-item title="特效2" name="2">
+												特效2
+											</el-collapse-item>
+											<el-collapse-item title="特效3" name="3">
+												特效3
+											</el-collapse-item>
+											<el-collapse-item title="可控 Controllability" name="4">
+
+											</el-collapse-item>
+										</el-collapse>
+
+									</el-tab-pane>
+								</el-tabs>
+							</div>
+
+						</el-aside>
+					</transition>
+				</el-container>
+			</div>
+
+			<el-backtop target=".el-aside" :visibility-height="0"></el-backtop>
+		</div>
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.9/theme-chalk/index.min.css">
+		<!-- 引入组件库 -->
+		<script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.9/index.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.event.ue.js"></script>
+		<script type="text/javascript" src="js/jquery.udraggable.js"></script>
+		<script src="echarts.js"></script>
+		<script src="optionJs/lineOption.js"></script>
+		<script src="optionJs/barOption.js"></script>
+		<script>
+
+		</script>
+
+		<script>
+			
+			var app = new Vue({
+				el: '#app',
+				data: function() {
+					return {
+						line_List: [],
+						line_List_option: [],
+						show3: true,
+						selectedMyChart: {},
+						chartLineStatic_Json: [],
+						chartBarStatic_Json: [],
+					}
+				},
+				created() {
+					const that = this
+					$.getJSON("./optionJson/chartLineStatic.json", function(data) {
+						 
+						that.chartLineStatic_Json = data;
+						console.log(that.chartLineStatic_Json)
+					})
+					
+					$.getJSON("./optionJson/chartBarStatic.json", function(data) {
+						 
+						that.chartBarStatic_Json = data;
+						console.log(that.chartBarStatic_Json)
+					})
+
+				},
+				methods: {
+					// div
+					createElementSpan(IdName) {
+						const that = this;
+						const span = document.createElement('span'); //创建一个div的节点
+						span.className = IdName + "_Span span_style_house"
+						span.onmousedown = (e) => {
+							const dragDom = document.getElementById(IdName)
+							console.log(dragDom)
+							const elW = dragDom.clientWidth
+							const elH = dragDom.clientHeight
+							const EloffsetLeft = dragDom.offsetLeft
+							const clientX = e.clientX
+							const clientY = e.clientY;
+							console.log(e)
+							document.onmousemove = function(e) {
+								e.preventDefault()
+								$('.drag1').udraggable("disable");
+								if (clientX > e.clientX) {
+									dragDom.style.width = elW - (clientX - e.clientX) + 'px'
+								}
+								// 往右拖拽
+								if (clientX < e.clientX) {
+									dragDom.style.width = elW + (e.clientX - clientX) + 'px'
+								}
+								if (e.clientY < 0) {
+
+								}
+								if (clientY > e.clientY) {
+									dragDom.style.height = elH + (e.clientY - clientY) + 'px'
+								}
+
+								if (clientY < e.clientY) {
+									dragDom.style.height = elH - (clientY - e.clientY) + 'px'
+								}
+							}
+							// 拉伸结束
+							document.onmouseup = function(e) {
+								document.onmousemove = null
+								document.onmouseup = null
+
+								document.getElementById(IdName).style.width = dragDom.style.width
+								document.getElementById(IdName).style.height = dragDom.style.height
+								console.log("sssss" + IdName)
+								var indexof = (that.line_List || []).findIndex((item) => item === IdName);
+
+
+								that.disposeEcharts(IdName, that.line_List_option[indexof])
+								document.getElementById(IdName).appendChild(that.createElementSpan(IdName))
+
+								$('.drag1').udraggable("enable");
+							}
+
+						}
+						return span;
+					},
+					create_line_sumbit(create_line_List, echartsNameOption) {
+						this.line_List.push(create_line_List) //创建节点完成添加到求全局记录
+
+						console.log(this.line_List)
+
+						console.log(echartsNameOption)
+						var div = document.createElement('div'); //创建一个div的节点
+						div.id = create_line_List; //给节点设置id 设置的id就是this.line_List要存入的ID
+						var create_line_List_Style = ''; //拿到全部的 css属性
+						for (i in echartsNameOption.style) {
+
+							create_line_List_Style += i + ":" + echartsNameOption.style[i] + ";"
+						}
+						console.log(create_line_List_Style)
+						div.style = create_line_List_Style; //赋值全部属性
+
+						div.setAttribute("onclick", "line_List_Onclick(" + create_line_List +
+							")");
+
+						div.setAttribute("ondblclick", "line_List_Ondblclick(" + create_line_List +
+							")");
+
+						div.setAttribute("oncontextmenu", "line_List_Contextmenu(" + create_line_List +
+							")");
+						div.className = "drag1 div_echarts"
+						// 基于准备好的dom，初始化echarts实例
+						document.getElementById("main").appendChild(div)
+						this.line_List_option.push(echartsNameOption)
+						// 指定图表的配置项和数据
+						// 使用刚指定的配置项和数据显示图表。
+						echarts.init(document.getElementById(create_line_List)).setOption(echartsNameOption);
+						// 点击单个节点的名字时的输出项
+						echarts.init(document.getElementById(create_line_List)).on('click', function(params) {
+							console.log(params)
+						});
+
+						// 添加一个span进入div作为移动
+
+						div.appendChild(this.createElementSpan(create_line_List))
+
+						$('.drag1').udraggable({
+							containment: document.getElementById("container"),
+
+						});
+					},
+					create_line(name) {
+						var create_line_List = name + this.line_List.length //获取长度 根据长度设置一个变量  创建节点
+						var echartsNameOption = getLineOptionJsonfunction(name,
+							create_line_List) //根据名字获取要添加的配置 配置的option 和style
+						this.create_line_sumbit(create_line_List, echartsNameOption)
+					},
+					create_Bar(name) {
+						var create_line_List = name + this.line_List.length //获取长度 根据长度设置一个变量  创建节点
+						var echartsNameOption = getBarOptionJsonfunction(name,
+							create_line_List) //根据名字获取要添加的配置 配置的option 和style
+						this.create_line_sumbit(create_line_List, echartsNameOption)
+					},
+					toggleBarMouseenter() {
+
+
+					},
+					toggleBarClick() {
+						if (this.show3 == true) {
+							this.show3 = !this.show3;
+							document.getElementsByClassName("toggle-bar")[0].style.right = "30px"
+							document.getElementsByClassName("toggle-bar")[0].style.transform = "rotate(-180deg)"
+						} else if (this.show3 == false) {
+							this.show3 = !this.show3;
+							document.getElementsByClassName("toggle-bar")[0].style.right = "310px"
+							document.getElementsByClassName("toggle-bar")[0].style.transform = ""
+
+						}
+
+
+					},
+					widthChange(e) {
+
+						console.log(e)
+						this.selectedMyChart.style.width = e;
+						document.getElementById(this.selectedMyChart.echartsName).style.width = e
+						this.disposeEcharts(this.selectedMyChart.echartsName, this.selectedMyChart)
+						document.getElementById(this.selectedMyChart.echartsName).appendChild(this.createElementSpan(this
+							.selectedMyChart.echartsName))
+
+					},
+					heightChange(e) {
+						console.log(e)
+						// 赋值
+						this.selectedMyChart.style.height = e;
+						// 立即修改div展示的值
+						document.getElementById(this.selectedMyChart.echartsName).style.height = e
+						// 注销画图工具 再次赋值
+						this.disposeEcharts(this.selectedMyChart.echartsName, this.selectedMyChart)
+						// 赋值并生成span拖动
+						document.getElementById(this.selectedMyChart.echartsName).appendChild(this.createElementSpan(this
+							.selectedMyChart.echartsName))
+					},
+					backgroundColorChange(e) {
+						console.log(e)
+						// 赋值
+						this.selectedMyChart.style.background = e;
+						// 立即修改div展示的值
+						document.getElementById(this.selectedMyChart.echartsName).style.background = e
+						// 注销画图工具 再次赋值
+						this.disposeEcharts(this.selectedMyChart.echartsName, this.selectedMyChart)
+						// 赋值并生成span拖动
+						document.getElementById(this.selectedMyChart.echartsName).appendChild(this.createElementSpan(this
+							.selectedMyChart.echartsName))
+					},
+					// 清除生成的表格 并且从新生成
+					disposeEcharts(echartName, option) {
+						if (echarts.init(document.getElementById(echartName)) != null && echarts
+							.init(document
+								.getElementById(echartName)) != "" && echarts.init(document
+								.getElementById(echartName)) != undefined) {
+							echarts.init(document.getElementById(echartName)).dispose();
+						}
+						echarts.init(document.getElementById(echartName)).setOption(option);
+					},
+					handleClick(tab, event) {
+						console.log(tab, event);
+
+					},
+					optionChange(e) {
+
+						const json = editor.get()
+						console.log("-------");
+						console.log()
+						var indexof = (this.line_List || []).findIndex((item) => item === this.selectedMyChart
+							.echartsName);
+						console.log(indexof)
+						console.log(this.line_List_option[indexof])
+						this.line_List_option[indexof] = json
+						this.selectedMyChart = json
+						console.log("json");
+						console.log(json)
+
+						//改动json数据  且不改动 样式 
+						this.disposeEcharts(this.selectedMyChart.echartsName, json)
+						document.getElementById(this.selectedMyChart.echartsName).appendChild(this.createElementSpan(this
+							.selectedMyChart.echartsName))
+						var demo = document.getElementById("jsoneditor");
+
+						demo.onblur = function() {
+							console.log(1)
+						};
+
+
+					},
+					iconFullScreenClick() {
+						document.getElementsByClassName("el-header")[0].style.display = "none"
+						document.getElementsByClassName("el-aside")[0].style.display = "none"
+						document.getElementsByClassName("toggle-bar")[0].style.display = "none"
+
+
+						var el = document.documentElement;
+						var rfs = el.requestFullScreen || el.webkitRequestFullScreen ||
+							el.mozRequestFullScreen || el.msRequestFullScreen;
+						if (typeof rfs != "undefined" && rfs) {
+							rfs.call(el);
+						} else if (typeof window.ActiveXObject != "undefined") {
+							var wscript = new ActiveXObject("WScript.Shell");
+							if (wscript != null) {
+								wscript.SendKeys("{F11}");
+							}
+						}
+
+					},
+					cssClick() {
+
+						// var selectChangEhartName = document.getElementById(this.selectedMyChart.echartsName)
+						// for (var i = 0; i < selectChangEhartName.length; i++) {
+						// 	if (!(selectChangEhartName[i] == "driveOutBottom")) {
+						// 		return true;
+						// 	} else {
+						// 		return false;
+						// 	}
+						// }
+						// selectChangEhartName.classList.add('driveOutBottom');
+
+					},
+					vivifyMouseenter(vivifyClassName, e) {
+
+						e.target.classList.add(vivifyClassName)
+
+
+
+					},
+					testDemo() {
+						console.log("禁用")
+						$('.drag1').udraggable("disable");
+
+						for (var i = 0; i < $('.span_style_house').length; i++) {
+							$('.span_style_house ')[i].style.display = "none"
+						}
+					},
+					zhuti() {}
+				}
+
+
+			})
+		</script>
+		<!-- 按钮操作 -->
+		<script>
+			function line_List_Onclick(create_line_List) {
+				// console.log(create_line_List)
+				console.log(create_line_List.id)
+
+				var indexof = (app.line_List || []).findIndex((item) => item === create_line_List.id);
+				console.log(indexof)
+				console.log(app.line_List_option[indexof])
+				app.selectedMyChart = app.line_List_option[indexof]
+
+				console.log(app.selectedMyChart)
+				const initialJson = app.selectedMyChart
+				editor.set(initialJson)
+				document.getElementsByClassName("p_houser_echartsName")[0].onmousemove = function() {
+
+					document.getElementById(create_line_List.id).style.border = "1px solid"
+					document.getElementById(create_line_List.id).style.borderRadius = "10px";
+				}
+				document.getElementsByClassName("p_houser_echartsName")[0].onmouseout = function() {
+					document.getElementById(create_line_List.id).style.border = ""
+				}
+
+			}
+
+
+			function line_List_Ondblclick(create_line_List) {
+				console.log(create_line_List.id)
+				echarts.init(document.getElementById(create_line_List.id)).setOption(app.line_List_option[0]);
+				alert(1)
+			}
+
+			function line_List_Contextmenu(create_line_List) {
+				console.log(create_line_List.id)
+
+			}
+		</script>
+		<!-- json美化 -->
+		<link href="https://unpkg.com/jsoneditor@9.9.0/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+		<script src="https://unpkg.com/jsoneditor@9.9.0/dist/jsoneditor.min.js"></script>
+		<script>
+			// create the editor
+			var container = document.getElementById("jsoneditor")
+			var options = {
+				modes: ['code', 'tree', 'view'],
+				mode: 'code',
+				ace: ace
+			}
+			console.log(container)
+			var editor = new JSONEditor(container, options)
+
+			// get json
+			// const updatedJson = editor.get()
+			// create the editor
+
+
+			// get json
+			// document.getElementById('getJSON').onclick = function() {
+			// 	const json = editor.get()
+			// 	alert(JSON.stringify(json, null, 2))
+			// }
+		</script>
+		<script>
+			window.onresize = function() {
+				// console.log(2222)
+				// var myChart = echarts.init(document.getElementById('Basic_Line_Chart0'));
+				// window.onresize = function() {
+				// 	myChart.resize();
+				// };
+
+
+
+			};
+		</script>
+
+	</body>
+
+</html>

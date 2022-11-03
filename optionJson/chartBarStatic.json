@@ -1,0 +1,21 @@
+[{
+		"chartName": "Bar_with_Background",
+		"chartNick": "带背景色的柱状图",
+		"chartUrl": "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/bar-background.webp?_v_=1655181358610"
+	},
+	{
+		"chartName": "Axis_Align_with_Tick",
+		"chartNick": "坐标轴刻度与标签对齐",
+		"chartUrl": "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/bar-tick-align.webp?_v_=1655181358610"
+	}, 
+	{
+		"chartName": "Set_Style_of_Single_Bar",
+		"chartNick": "自定义单个柱子颜色",
+		"chartUrl": "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/bar-data-color.webp?_v_=1655181358610"
+	},
+	{
+		"chartName": "World_Population",
+		"chartNick": "条形图",
+		"chartUrl": "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/bar-y-category.webp?_v_=1655181358610"
+	}
+]
